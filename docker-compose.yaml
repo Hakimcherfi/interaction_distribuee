@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+
+  capteur_reel:
+    build:
+      context: ./capteur_reel
+    devices:
+      - "/dev/ttyACM0"
+    volumes:
+      -  ./capteur_reel:/app
+    environment:
+      - PORT_ARDUINO=/dev/ttyACM0
+
+  capteur_virtuel:
+    build:
+      context: ./capteur_virtuel
+    volumes:
+      - ./capteur_virtuel:/app
+
+  slot:
+    build:
+      context: ./slot
+    ports:
+      - 5000:5000
+    volumes:
+      - ./slot:/app
+    environment:
+      - CAPTEUR_VIRTUEL_API_SERVER=http://capteur_virtuel:5000
+      - CAPTEUR_REEL_API_SERVER=http://capteur_reel:5000
