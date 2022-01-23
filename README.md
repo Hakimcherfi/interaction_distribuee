@@ -23,3 +23,5 @@ Au lancement de l'orchestration, il n'y a aucune donnée enregistrée. Il faut d
 Le sketch utilisé dans l'Arduino est fourni afin d'être compilé et versé vers le microcontroleur (donc à faire une seule fois) et n'est pas utilisé par docker-compose.
 
 Capteur de température utilisé pendant le développement : TMP 36GZ.
+
+Hôte utilisé pendant le développement : ubuntu 20.04
