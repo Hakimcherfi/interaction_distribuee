@@ -4,14 +4,22 @@ Concept : un Arduino uno muni d'un capteur de température, ainsi qu'un capteur 
 
 Pour lancer le projet, il suffit de disposer de docker-compose, et d'un arduino avec capteur de température. L'arduino est connecté en USB et le service qui l'utilise appelle la bibliothèque `pyserial` pour aller lire le fichier où sont écrites les données par l'Arduino.
 
-Il faut donc ouvrir le fichier `docker-compose.yaml` et aller modifier les lignes suivantes : `environment: - PORT_ARDUINO=/dev/ttyACM0` et `devices: - "/dev/ttyACM0"` afin que le service ait effectivement accès au capteur. Penser à verser le code sur l'Arduino (voir suite).
+Lancement du projet :
 
-Lancement de l'orchestration : `docker-compose build` puis `docker-compose up`.
+1- Téléverser le sketch dans l'arduino (sketch fourni, voir suite) et connecter la donnée issue du capteur sur le port A0.
 
-Le port 5000 est mappé par docker-compose au port 5000 du service slot, on peut donc s'en servir pour intéragir avec les capteurs : il suffit de taper dans un navigateur : `http://localhost:5000` pour afficher le dashboard, ou bien faire une requête GET vers `/get_data` (par exemple avec le navigateur web en tapant `http://localhost:5000/get_data`) pour obtenir l'ensemble des données au format JSON.
+2- Ouvrir le fichier `docker-compose.yaml` et aller modifier les lignes suivantes au niveau du service `capteur_reel` : `environment: - PORT_ARDUINO=/dev/ttyACM0` et `devices: - "/dev/ttyACM0"` (remplacer `/dev/ttyACM0` par le bon fichier correspondant à votre configuration) afin que le service ait accès au port Série de l'Arduino.
 
-Au lancement de l'orchestration, il n'y a aucune donnée enregistrée. Il faut donc patienter quelques secondes afin de disposer de données.
+3- Lancement de l'orchestration : `docker-compose build` puis `docker-compose up`.
+
+Utilisation :
+
+Le port 5000 de la machine hôte est mappé par docker-compose au port 5000 du service slot, on peut donc s'en servir pour intéragir avec les capteurs : il suffit de taper dans un navigateur : `http://localhost:5000` pour afficher le dashboard, ou bien faire une requête GET vers `/get_data` sans aucun argument (par exemple avec le navigateur web en tapant `http://localhost:5000/get_data`) pour obtenir l'ensemble des données au format JSON.
+
+Notes :
+
+Au lancement de l'orchestration, il n'y a aucune donnée enregistrée. Il faut donc patienter quelques secondes afin de disposer de données. Evolution possible : ajouter un service de base de donnée pour stocker les mesures afin qu'elles soient persistantes.
 
 Le sketch utilisé dans l'Arduino est fourni afin d'être compilé et versé vers le microcontroleur (donc à faire une seule fois) et n'est pas utilisé par docker-compose.
 
-Capteur de température : TMP 36GZ, borne de donnée branchée sur A0 de l'arduino.
+Capteur de température utilisé pendant le développement : TMP 36GZ.
