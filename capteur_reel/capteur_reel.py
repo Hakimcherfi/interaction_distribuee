@@ -19,7 +19,7 @@ def write_data():
                 packet = serialInst.readline()
                 serialInst.close()
                 data = packet.decode('utf').strip("\n")
-                data = {"capteur":"arduino","temperature":"{}".format(data),"time":"{}".format(datetime.now().strftime("%Y/%m/%d %H:%M:%S")),"seconds":"{}".format(time.time())}
+                data = {"capteur":"arduino","temperature":"{}".format(data).strip('\r'),"time":"{}".format(datetime.now().strftime("%Y/%m/%d %H:%M:%S")),"seconds":"{}".format(time.time())}
                 requests.post(AGREGAT_API_SERVER,data = data)
                 time.sleep(10)
 
