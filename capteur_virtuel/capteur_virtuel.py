@@ -1,11 +1,8 @@
-from flask import Flask
 import random
 from datetime import datetime
 import time
 import requests
 import os
-
-app = Flask(__name__)
 
 AGREGAT_API_SERVER = os.environ['AGREGAT_API_SERVER']
 

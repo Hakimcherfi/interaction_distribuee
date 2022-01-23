@@ -1,7 +1,6 @@
 import serial
 import time
 import os
-from flask import Flask,jsonify
 from datetime import datetime
 import csv
 import requests
@@ -9,7 +8,6 @@ import requests
 serialInst = serial.Serial()
 serialInst.baudrate = 9600
 serialInst.port = os.environ['PORT_ARDUINO']
-app = Flask(__name__)
 
 AGREGAT_API_SERVER = os.environ['AGREGAT_API_SERVER']
 
