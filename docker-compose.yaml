@@ -11,12 +11,25 @@ services:
       -  ./capteur_reel:/app
     environment:
       - PORT_ARDUINO=/dev/ttyACM0
+      - AGREGAT_API_SERVER=http://agregat:5000
+    depends_on:
+      - agregat
 
   capteur_virtuel:
     build:
       context: ./capteur_virtuel
     volumes:
       - ./capteur_virtuel:/app
+    environment:
+      - AGREGAT_API_SERVER=http://agregat:5000
+    depends_on:
+      - agregat
+
+  agregat:
+    build:
+      context: ./agregat
+    volumes:
+      - ./agregat:/app
 
   slot:
     build:
@@ -26,5 +39,4 @@ services:
     volumes:
       - ./slot:/app
     environment:
-      - CAPTEUR_VIRTUEL_API_SERVER=http://capteur_virtuel:5000
-      - CAPTEUR_REEL_API_SERVER=http://capteur_reel:5000
+      - AGREGAT_API_SERVER=http://agregat:5000
